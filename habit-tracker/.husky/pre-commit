@@ -1,0 +1,2 @@
+cd habit-tracker
+npx lint-staged
