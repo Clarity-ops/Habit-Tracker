@@ -1,0 +1,17 @@
+.authPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background-color: #ffffff;
+  border: 2px dashed #ccc;
+  border-radius: 76px;
+  text-align: center;
+}
