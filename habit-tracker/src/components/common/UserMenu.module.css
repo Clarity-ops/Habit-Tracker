@@ -1,0 +1,36 @@
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f3f8;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #dbe4f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarIcon {
+  color: #888;
+  font-size: 14px;
+}
+
+.userName {
+  font-weight: 500;
+  color: #333;
+}
+
+.dropdownIcon {
+  font-size: 10px;
+  color: #555;
+  transform: scaleY(0.6);
+}

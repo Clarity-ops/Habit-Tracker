@@ -1,0 +1,11 @@
+.mainPageContainer {
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.contentArea {
+  margin-top: 24px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
