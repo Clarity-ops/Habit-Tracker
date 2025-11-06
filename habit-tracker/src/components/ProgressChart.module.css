@@ -1,0 +1,53 @@
+.chartContainer {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  flex: 1.5;
+  min-width: 320px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.chartArea {
+  display: flex;
+  position: relative;
+  height: 250px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.barChart {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-left: 10px;
+}
+
+.bar {
+  width: 12px;
+  background-color: #6b9cde;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease-out;
+}
+
+.xAxis {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  margin-top: 8px;
+}
+
+.xAxisLabel {
+  font-size: 12px;
+  color: #999;
+  width: 12px;
+  text-align: center;
+}
