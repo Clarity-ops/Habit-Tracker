@@ -8,6 +8,7 @@ const HabitModal = ({
   onClose,
   onToggleHabit,
   onOpenAddHabitModal,
+  onDeleteHabit,
 }) => {
   const handleModalContentClick = (e) => {
     e.stopPropagation();
@@ -19,13 +20,14 @@ const HabitModal = ({
         <h2 className={styles.title}>Today</h2>
 
         <div className={styles.habitList}>
-          {/* 5. Рендеримо ПОВНИЙ список звичок з пропсів */}
+          {}
           {habits.map((habit) => (
             <Checkbox
               key={habit.id}
-              label={habit.label}
-              checked={habit.checked}
-              onChange={() => onToggleHabit(habit.id)}
+              label={habit.name}
+              checked={habit.isCompleted}
+              onChange={() => onToggleHabit(habit)}
+              onDelete={() => onDeleteHabit(habit.id, habit.name)}
             />
           ))}
         </div>

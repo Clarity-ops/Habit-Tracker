@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "email": "test@user.com",
+      "password": "$2a$10$P3UjX/TzY4ofUcUzO49LLO.enm1FEteSYElms5KVMv0l2bijBW3KG",
+      "name": "Test User",
+      "id": 1
+    },
+    {
+      "email": "test1@user.com",
+      "password": "$2a$10$QeyukJisff7eE6coQ2kJdu2gHeeRRDXY9Yc/AJrdaPWSdut9PDJ3O",
+      "id": 2,
+      "name": "John Doe"
+    }
+  ],
+  "habits": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Пити воду"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "name": "Читати 20 сторінок"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "name": "Ранкова зарядка"
+    },
+    {
+      "name": "Вчити Реакт",
+      "userId": 2,
+      "id": 4
+    },
+    {
+      "name": "Вчити реакт",
+      "userId": 1,
+      "id": 5
+    }
+  ],
+  "completions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "habitId": 1,
+      "date": "2025-11-10"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "habitId": 2,
+      "date": "2025-11-10"
+    },
+    {
+      "habitId": 5,
+      "userId": 1,
+      "date": "2025-11-11",
+      "id": 5
+    },
+    {
+      "habitId": 1,
+      "userId": 1,
+      "date": "2025-11-11",
+      "id": 11
+    },
+    {
+      "habitId": 3,
+      "userId": 1,
+      "date": "2025-11-11",
+      "id": 12
+    }
+  ]
+}

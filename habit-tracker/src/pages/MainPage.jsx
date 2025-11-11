@@ -3,54 +3,91 @@ import Header from "../components/layout/Header";
 import TodaySummary from "../components/TodaySummary";
 import ProgressChart from "../components/ProgressChart";
 import HabitModal from "../components/HabitModal";
+import { useAuth } from "../hooks/useAuth";
+import { useHabits } from "../hooks/useHabits";
+import { useCompletions } from "../hooks/useCompletions";
+import { getTodayDateString } from "../utils/dateUtils";
 import styles from "./MainPage.module.css";
-
-const INITIAL_HABITS = [
-  { id: 1, label: "Drink water", checked: true },
-  { id: 2, label: "Read 20 pages", checked: true },
-  { id: 3, label: "Morning exercise", checked: false },
-  { id: 4, label: "Meditate", checked: false },
-  { id: 5, label: "Walk the dog", checked: true },
-  { id: 6, label: "Review code", checked: false },
-  { id: 7, label: "Call mom", checked: false },
-];
+import { useMemo } from "react";
 
 const MainPage = ({ onOpenAddHabitModal }) => {
-  const [habits, setHabits] = useState(INITIAL_HABITS);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleToggleHabit = (idToToggle) => {
-    setHabits((currentHabits) =>
-      currentHabits.map((habit) =>
-        habit.id === idToToggle ? { ...habit, checked: !habit.checked } : habit,
-      ),
-    );
+  const { userId } = useAuth();
+
+  const todayDateString = getTodayDateString();
+
+  const { habits, isLoadingHabits, deleteHabit } = useHabits();
+
+  const handleDeleteHabit = (habitId, habitName) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${habitName}"? This action cannot be undone.`,
+      )
+    ) {
+      deleteHabit(habitId);
+    }
+  };
+
+  const {
+    completions,
+    isLoading: isLoadingCompletions,
+    addCompletion,
+    deleteCompletion,
+  } = useCompletions(todayDateString);
+
+  const mergedHabits = useMemo(() => {
+    const completionsMap = new Map();
+    completions.forEach((c) => completionsMap.set(c.habitId, c.id));
+
+    return habits.map((habit) => ({
+      ...habit,
+      isCompleted: completionsMap.has(habit.id),
+      completionId: completionsMap.get(habit.id) || null,
+    }));
+  }, [habits, completions]);
+
+  const handleToggleHabit = (habit) => {
+    if (habit.isCompleted) {
+      deleteCompletion(habit.completionId);
+    } else {
+      addCompletion({
+        habitId: habit.id,
+        userId: parseInt(userId),
+        date: todayDateString,
+      });
+    }
   };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const isLoading = isLoadingHabits || isLoadingCompletions;
+  if (isLoading) {
+    return <div>Loading your habits...</div>;
+  }
   return (
     <div className={styles.mainPageContainer}>
       <Header onOpenAddHabitModal={onOpenAddHabitModal} />
 
       <div className={styles.contentArea}>
         <TodaySummary
-          habits={habits}
+          habits={mergedHabits}
           onOpenModal={openModal}
           onToggleHabit={handleToggleHabit}
           onOpenAddHabitModal={onOpenAddHabitModal}
+          onDeleteHabit={handleDeleteHabit}
         />
         <ProgressChart />
       </div>
 
       {isModalOpen && (
         <HabitModal
-          habits={habits}
+          habits={mergedHabits}
           onClose={closeModal}
           onToggleHabit={handleToggleHabit}
           onOpenAddHabitModal={onOpenAddHabitModal}
+          onDeleteHabit={handleDeleteHabit}
         />
       )}
     </div>

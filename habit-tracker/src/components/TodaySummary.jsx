@@ -10,6 +10,7 @@ const TodaySummary = ({
   onOpenModal,
   onToggleHabit,
   onOpenAddHabitModal,
+  onDeleteHabit,
 }) => {
   const habitsToShow = habits.slice(0, MAX_ITEMS_TO_SHOW);
   const hasMore = habits.length > MAX_ITEMS_TO_SHOW;
@@ -22,9 +23,10 @@ const TodaySummary = ({
         {habitsToShow.map((habit) => (
           <Checkbox
             key={habit.id}
-            label={habit.label}
-            checked={habit.checked}
-            onChange={() => onToggleHabit(habit.id)}
+            label={habit.name}
+            checked={habit.isCompleted}
+            onChange={() => onToggleHabit(habit)}
+            onDelete={() => onDeleteHabit(habit.id, habit.name)}
           />
         ))}
         {hasMore && <div className={styles.dots}>...</div>}

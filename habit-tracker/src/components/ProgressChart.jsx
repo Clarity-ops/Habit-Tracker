@@ -1,13 +1,25 @@
 import React from "react";
 import styles from "./ProgressChart.module.css";
+import { useProgressData } from "../hooks/useProgressData";
 
-const progressData = [
-  20, 60, 62, 55, 65, 75, 70, 78, 72, 80, 70, 68, 75, 65, 70,
-];
-
-const labelsX = Array.from({ length: 15 }, (_, i) => i + 1);
+const curDate = new Date().getDate();
+const firstDay = curDate - 14 > 0 ? curDate - 14 : 1;
+const labelsX = Array.from(
+  { length: curDate > 15 ? 15 : curDate },
+  (_, i) => i + firstDay,
+);
 
 const ProgressChart = () => {
+  const { progressData, isLoading } = useProgressData();
+
+  if (isLoading) {
+    return (
+      <div className={styles.chartContainer}>
+        <h3 className={styles.title}>Progress</h3>
+        <p>Loading chart data...</p>
+      </div>
+    );
+  }
   return (
     <div className={styles.chartContainer}>
       <h3 className={styles.title}>Progress</h3>
