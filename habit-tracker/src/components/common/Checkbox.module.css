@@ -1,15 +1,22 @@
 .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 12px;
+  user-select: none;
+}
+
+.label {
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
   cursor: pointer;
   font-size: 18px;
-  user-select: none;
   color: #333;
 }
 
-.container input {
+.label input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -55,4 +62,47 @@
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+}
+.label:hover input ~ .checkmark {
+  background-color: #e6ecf2;
+}
+
+.label input:checked ~ .checkmark {
+  background-color: #6b9cde;
+  border-color: #6b9cde;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.label .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.deleteButton:hover {
+  color: #e74c3c;
 }

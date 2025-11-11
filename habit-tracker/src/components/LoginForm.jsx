@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./LoginForm.module.css";
+import { useAuth } from "../hooks/useAuth.jsx";
 
 const LoginForm = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Login Form submitted");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await login(email, password);
+    } catch (err) {
+      const errorMessage =
+        err.response?.data || "Failed to log in. Check credentials.";
+      setError(errorMessage);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -15,6 +32,8 @@ const LoginForm = () => {
           placeholder="Email address"
           className={styles.input}
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className={styles.inputWrapper}>
@@ -23,10 +42,17 @@ const LoginForm = () => {
           placeholder="Password"
           className={styles.input}
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button type="submit" className={styles.submitButton}>
-        Sign in
+      {error && <p className={styles.error}>{error}</p>}
+      <button
+        type="submit"
+        className={styles.submitButton}
+        disabled={isLoading}
+      >
+        {isLoading ? "Loading..." : "Sign In"}
       </button>
     </form>
   );

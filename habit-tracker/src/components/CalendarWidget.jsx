@@ -34,8 +34,7 @@ const CalendarWidget = ({
   currentDate,
   selectedDate,
   onSelectDate,
-  onPrevMonth,
-  onNextMonth,
+  setCurrentDate,
 }) => {
   const grid = getCalendarGrid(currentDate);
   const today = new Date();
@@ -48,20 +47,32 @@ const CalendarWidget = ({
     );
   };
 
+  const handlePrevMonth = () => {
+    setCurrentDate(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1),
+    );
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
+    );
+  };
+
   return (
     <div className={styles.widgetContainer}>
-      {/* 1. Хедер (Місяць та навігація) */}
+      {}
       <div className={styles.header}>
         <span className={styles.monthYear}>
           {getMonthYearString(currentDate)}
         </span>
         <div className={styles.navButtons}>
-          <button onClick={onPrevMonth}>&lt;</button>
-          <button onClick={onNextMonth}>&gt;</button>
+          <button onClick={handlePrevMonth}>&lt;</button>
+          <button onClick={handleNextMonth}>&gt;</button>
         </div>
       </div>
 
-      {/* 2. Дні тижня */}
+      {}
       <div className={styles.weekDays}>
         {WEEK_DAYS.map((day) => (
           <div key={day} className={styles.weekDay}>
@@ -70,7 +81,7 @@ const CalendarWidget = ({
         ))}
       </div>
 
-      {/* 3. Сітка днів */}
+      {}
       <div className={styles.daysGrid}>
         {grid.map((day, index) => {
           if (!day) {

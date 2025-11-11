@@ -1,22 +1,40 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { useAuth } from "../hooks/useAuth.jsx";
 import styles from "./LoginForm.module.css";
 
 const RegisterForm = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Register Form submitted");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await register(email, password);
+    } catch (err) {
+      const errorMessage = err.response?.data || "Registration failed.";
+      setError(errorMessage);
+      setIsLoading(false);
+    }
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {/* Поле для Email */}
+      {}
       <div className={styles.inputWrapper}>
         <input
           type="email"
           placeholder="Email address"
           className={styles.input}
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className={styles.inputWrapper}>
@@ -25,6 +43,8 @@ const RegisterForm = () => {
           placeholder="Password"
           className={styles.input}
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
       <div className={styles.inputWrapper}>
@@ -33,10 +53,17 @@ const RegisterForm = () => {
           placeholder="Confirm password"
           className={styles.input}
           required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
-      <button type="submit" className={styles.submitButton}>
-        Register
+      {error && <p className={styles.error}>{error}</p>}
+      <button
+        type="submit"
+        className={styles.submitButton}
+        disabled={isLoading || password !== confirmPassword}
+      >
+        {isLoading ? "Loading..." : "Sign Up"}
       </button>
     </form>
   );
