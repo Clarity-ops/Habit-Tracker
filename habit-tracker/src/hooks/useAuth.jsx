@@ -22,29 +22,33 @@ export const AuthProvider = ({ children }) => {
       const { data } = await apiClient.post("/login", { email, password });
 
       setToken(data.accessToken);
-      setUserId(data.user.id);
+      setUserId(data.user._id);
 
       apiClient.defaults.headers.common["Authorization"] =
         `Bearer ${data.accessToken}`;
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("userId", data.user._id);
     } catch (error) {
       console.error("Login failed", error);
       throw error;
     }
   };
 
-  const register = async (email, password) => {
+  const register = async (email, password, name) => {
     try {
-      const { data } = await apiClient.post("/register", { email, password });
+      const { data } = await apiClient.post("/register", {
+        email,
+        password,
+        name,
+      });
 
       setToken(data.accessToken);
-      setUserId(data.user.id);
+      setUserId(data.user._id);
       apiClient.defaults.headers.common["Authorization"] =
         `Bearer ${data.accessToken}`;
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("userId", data.user._id);
     } catch (error) {
       console.error("Register failed", error);
       throw error;

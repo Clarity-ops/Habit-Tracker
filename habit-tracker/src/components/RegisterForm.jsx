@@ -5,6 +5,7 @@ import styles from "./LoginForm.module.css";
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,7 @@ const RegisterForm = () => {
     setError(null);
 
     try {
-      await register(email, password);
+      await register(email, password, name);
     } catch (err) {
       const errorMessage = err.response?.data || "Registration failed.";
       setError(errorMessage);
@@ -26,7 +27,16 @@ const RegisterForm = () => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {}
+      <div className={styles.inputWrapper}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
       <div className={styles.inputWrapper}>
         <input
           type="email"
