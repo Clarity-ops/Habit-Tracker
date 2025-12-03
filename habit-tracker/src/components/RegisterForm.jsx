@@ -19,7 +19,16 @@ const RegisterForm = () => {
     try {
       await register(email, password, name);
     } catch (err) {
-      const errorMessage = err.response?.data || "Registration failed.";
+      const responseData = err.response?.data;
+
+      let errorMessage = "Registration failed.";
+      if (responseData) {
+        if (typeof responseData === "string") {
+          errorMessage = responseData;
+        } else if (responseData.message) {
+          errorMessage = responseData.message;
+        }
+      }
       setError(errorMessage);
       setIsLoading(false);
     }
