@@ -3,10 +3,11 @@ import { useUser } from "../hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../services/api";
 import styles from "./ProfilePage.module.css";
+import { useNavigate } from "react-router-dom";
 
 const updateProfile = async (userData) => {
-  const { id, ...data } = userData;
-  const { data: updatedUser } = await apiClient.patch(`/users/${id}`, data);
+  const { id: _, ...data } = userData;
+  const { data: updatedUser } = await apiClient.patch(`/users/me`, data);
   return updatedUser;
 };
 
@@ -14,6 +15,7 @@ const ProfilePage = () => {
   const { data: user, isLoading: isUserLoading } = useUser();
   const [name, setName] = useState("");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -26,6 +28,7 @@ const ProfilePage = () => {
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(["user", updatedUser.id], updatedUser);
       alert("Profile updated!");
+      navigate("/");
     },
     onError: (error) => {
       console.error("Update failed", error);
@@ -35,7 +38,7 @@ const ProfilePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({ id: user.id, name: name });
+    mutation.mutate({ id: user._id, name: name });
   };
 
   if (isUserLoading) {
