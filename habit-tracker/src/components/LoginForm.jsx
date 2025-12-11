@@ -18,7 +18,7 @@ const LoginForm = () => {
       await login(email, password);
     } catch (err) {
       const errorMessage =
-        err.response?.data || "Failed to log in. Check credentials.";
+        err.response?.data.message || "Failed to log in. Check credentials.";
       setError(errorMessage);
       setIsLoading(false);
     }

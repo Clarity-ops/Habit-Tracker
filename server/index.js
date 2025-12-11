@@ -29,6 +29,7 @@ app.post("/register", UserController.register);
 app.post("/login", UserController.login);
 
 app.get("/users/:id", checkAuth, UserController.getMe);
+app.patch("/users/me", checkAuth, UserController.update);
 
 app.get("/habits", checkAuth, HabitController.getAll);
 app.post("/habits", checkAuth, HabitController.create);

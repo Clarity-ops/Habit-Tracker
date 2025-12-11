@@ -83,3 +83,28 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: "No access" });
   }
 };
+
+export const update = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      {
+        name: req.body.name,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json(userData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to update user" });
+  }
+};
